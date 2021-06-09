@@ -1,12 +1,53 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import {
+  Button,
+  FlatList,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TextInput,
+  View,
+} from 'react-native';
+import Form from './components/Form';
+import Header from './components/Header';
+import List from './components/List';
 
-export default function App() {
+function App(props) {
+  const [todos, setTodos] = useState([
+    { text: 'Learn React Native', key: '1' },
+    { text: 'Learn Advanced React Concepts', key: '2' },
+    { text: 'Build Client Website', key: '3' },
+  ]);
+
+  const deleteTodo = (key) => {
+    setTodos((prevTodos) => {
+      return prevTodos.filter((todo) => todo.key !== key);
+    });
+  };
+
+  const addTodo = (text, setText) => {
+    setText('');
+    setTodos((prevTodos) => {
+      return [
+        { text: text, key: Math.random().toString() },
+        ...prevTodos,
+      ];
+    });
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
+      <Header />
+
+      <View style={styles.content}>
+        <Form addTodo={addTodo} />
+        <List todos={todos} deleteTodo={deleteTodo} />
+        <Text style={styles.mutedText}>
+          {todos.length === 0
+            ? 'Add a new Todo'
+            : 'Tap on completed tasks to remove them'}
+        </Text>
+      </View>
     </View>
   );
 }
@@ -14,8 +55,17 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    paddingTop: StatusBar.currentHeight,
+    alignItems: 'flex-start',
+  },
+  content: {
+    width: '100%',
+  },
+  mutedText: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: '#a7afb5',
   },
 });
+
+export default App;
