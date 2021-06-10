@@ -14,9 +14,7 @@ import List from './components/List';
 
 function App(props) {
   const [todos, setTodos] = useState([
-    { text: 'Learn React Native', key: '1' },
-    { text: 'Learn Advanced React Concepts', key: '2' },
-    { text: 'Build Client Website', key: '3' },
+    { text: 'e.g. Go to Shopping', key: '1' },
   ]);
 
   const deleteTodo = (key) => {
